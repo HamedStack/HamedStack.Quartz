@@ -1,0 +1,15 @@
+// Batches
+var batchId = BatchJob.StartNew(x =>
+{
+    x.Enqueue(() => Console.WriteLine("Job 1"));
+    x.Enqueue(() => Console.WriteLine("Job 2"));
+});
+
+// Batch Continuations
+BatchJob.ContinueBatchWith(batchId, x =>
+{
+    x.Enqueue(() => Console.WriteLine("Last Job"));
+});
+
+You could use JobChainingJobListener to approach the problem:
+https://github.com/quartznet/quartznet/blob/35b8532dc005af2fc907b6d2516c2e4bf40f833b/src/Quartz/Listener/JobChainingJobListener.cs
